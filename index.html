@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reproductor de Canciones por Grado</title>
+  <title>Reproductor de Canciones por Grado - ENGLISH DAY</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -16,12 +16,26 @@
       height: 100vh;
     }
     
+    .english-day-banner {
+      background: linear-gradient(90deg, #4f46e5, #7a1919);
+      color: white;
+      text-align: center;
+      padding: 0.5rem;
+      font-weight: bold;
+      font-size: 1.2rem;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+      position: relative;
+      z-index: 10;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    
     .desktop {
       padding: 2rem;
-      height: 100vh;
+      height: calc(100vh - 3rem);
       background-image: url('https://cdn.pixabay.com/photo/2022/10/28/17/24/mountains-7553125_1280.jpg');
       background-size: cover;
       background-position: center;
+      overflow-y: auto;
     }
     
     .folder {
@@ -40,7 +54,7 @@
     }
     
     .content-view {
-      height: 100vh;
+      height: calc(100vh - 3rem);
       background-color: #fff;
       display: none;
       overflow: hidden;
@@ -82,6 +96,7 @@
       border-radius: 0.5rem;
       overflow: hidden;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      position: relative;
     }
     
     /* New Mobile Responsive CSS */
@@ -89,8 +104,7 @@
       .desktop {
         grid-template-columns: 1fr !important;
         padding: 1rem;
-        padding-bottom: 5rem; /* Space for navbar */
-        overflow-y: auto;
+        padding-bottom: 5rem;
       }
       
       .folder {
@@ -103,12 +117,12 @@
       
       .content-view {
         padding: 1rem;
-        padding-bottom: 5rem; /* Space for navbar */
+        padding-bottom: 5rem;
       }
       
       #subfolders-view {
         padding: 1rem;
-        padding-bottom: 5rem; /* Space for navbar */
+        padding-bottom: 5rem;
       }
       
       .grid-cols-1.md\:grid-cols-2 {
@@ -125,6 +139,11 @@
       
       .mobile-navbar {
         display: flex !important;
+      }
+      
+      .english-day-banner {
+        font-size: 1rem;
+        padding: 0.3rem;
       }
     }
     
@@ -156,7 +175,6 @@
       margin-bottom: 0.25rem;
     }
     
-    /* New styles for the unified content view */
     #unified-content {
       display: flex;
       flex-direction: column;
@@ -165,11 +183,11 @@
     
     @media (max-width: 768px) {
       #unified-content {
-        height: calc(100vh - 12rem); /* Adjust for mobile */
+        height: calc(100vh - 12rem);
       }
       
       #unified-content .video-container {
-        height: 40vh; /* Fixed height for mobile */
+        height: 40vh;
       }
       
       #unified-content .lyrics-panel {
@@ -179,6 +197,11 @@
   </style>
 </head>
 <body>
+  <!-- ENGLISH DAY Banner -->
+  <div class="english-day-banner">
+    ENGLISH DAY - CANCIONES POR GRADO
+  </div>
+
   <!-- Desktop View -->
   <div id="desktop" class="desktop grid grid-cols-3 md:grid-cols-6 gap-6">
     <div class="folder flex flex-col items-center" data-grade="6">
@@ -219,7 +242,7 @@
     </div>
   </div>
 
-  <!-- Subfolders View (NEW) -->
+  <!-- Subfolders View -->
   <div id="subfolders-view" class="p-6 h-full" style="display: none; background-image: url('https://cdn.pixabay.com/photo/2022/10/28/17/24/mountains-7553125_1280.jpg'); background-size: cover; background-position: center;">
     <div class="mb-6">
       <button id="back-to-desktop-button" class="back-button flex items-center text-blue-600 font-medium bg-white bg-opacity-90 px-3 py-2 rounded-lg">
@@ -243,14 +266,13 @@
     </div>
   </div>
 
-  <!-- Content View - Update to accommodate unified view -->
+  <!-- Content View -->
   <div id="content-view" class="content-view p-6">
     <div class="mb-6">
       <button id="back-button" class="back-button flex items-center text-blue-600 font-medium">
         <i class="fas fa-arrow-left mr-2"></i> Volver
       </button>
     </div>
-    <!-- Replace separate content divs with a single unified view -->
     <div id="unified-content" class="flex flex-col gap-4 h-[calc(100vh-8rem)]">
       <div class="video-container w-full" style="height: 40%;">
         <video id="video-player" controls class="w-full h-full">
@@ -293,126 +315,120 @@
         videoUrl: 'https://drive.google.com/file/d/1CdooKNCXwGgSciDc7mMxIxgJwvx4Xf_F/view?usp=sharing',
         pdfUrl: 'https://drive.google.com/file/d/1IJROAab21l87RICQR_q2ofeqmesGLxLd/view?usp=sharing',
         lyrics: `Well, you can tell by the way I use my walk
-        I'm a woman's man, no time to talk
-        The music loud and the women warm
-        I've been kicked around since I was born
+I'm a woman's man, no time to talk
+The music loud and the women warm
+I've been kicked around since I was born
 
-        And now it's alright, it's okay
-        And you may look the other way
-        But we can try to understand
-        The New York Times' effect on man
+And now it's alright, it's okay
+And you may look the other way
+But we can try to understand
+The New York Times' effect on man
 
-        Whether you're a brother or whether you're a mother
-        You're stayin' alive, stayin' alive
-        Feel the city breakin' and everybody shakin'
-        And we're stayin' alive, stayin' alive
-        Ah, ah, ah, ah
-        Stayin' alive, stayin' alive
-        Ah, ah, ah, ah
-        Stayin' alive
-        Oh, when you walk
+Whether you're a brother or whether you're a mother
+You're stayin' alive, stayin' alive
+Feel the city breakin' and everybody shakin'
+And we're stayin' alive, stayin' alive
+Ah, ah, ah, ah
+Stayin' alive, stayin' alive
+Ah, ah, ah, ah
+Stayin' alive
+Oh, when you walk
 
-        Well now, I get low and I get high
-        And if I can't get either, I really try
-        Got the wings of Heaven on my shoes
-        I'm a dancin' man and I just can't lose
+Well now, I get low and I get high
+And if I can't get either, I really try
+Got the wings of Heaven on my shoes
+I'm a dancin' man and I just can't lose
 
-        You know it's alright, it's okay
-        I'll live to see another day
-        But we can try to understand
-        The New York Times' effect on man
+You know it's alright, it's okay
+I'll live to see another day
+But we can try to understand
+The New York Times' effect on man
 
-        Whether you're a brother or whether you're a mother
-        You're stayin' alive, stayin' alive
-        Feel the city breakin' and everybody shakin'
-        And we're stayin' alive, stayin' alive
-        Ah, ah, ah, ah
-        Stayin' alive, stayin' alive
-        Ah, ah, ah, ah
-        Stayin' alive
-        (Hey, yeah)
+Whether you're a brother or whether you're a mother
+You're stayin' alive, stayin' alive
+Feel the city breakin' and everybody shakin'
+And we're stayin' alive, stayin' alive
+Ah, ah, ah, ah
+Stayin' alive, stayin' alive
+Ah, ah, ah, ah
+Stayin' alive
+(Hey, yeah)
 
-        Life goin' nowhere
-        Somebody help me
-        Somebody help me, yeah
-        Life goin' nowhere
-        Somebody help me, yeah
-        I'm stayin' alive
+Life goin' nowhere
+Somebody help me
+Somebody help me, yeah
+Life goin' nowhere
+Somebody help me, yeah
+I'm stayin' alive
 
-        Well, you can tell by the way I use my walk
-        I'm a woman's man, no time to talk
-        The music loud and the women warm
-        I've been kicked around since I was born
+Well, you can tell by the way I use my walk
+I'm a woman's man, no time to talk
+The music loud and the women warm
+I've been kicked around since I was born
 
-        And now it's alright, it's okay
-        And you may look the other way
-        But we can try to understand
-        The New York Times' effect on man
+And now it's alright, it's okay
+And you may look the other way
+But we can try to understand
+The New York Times' effect on man
 
-        Whether you're a brother or whether you're a mother
-        You're stayin' alive, stayin' alive
-        Feel the city breakin' and everybody shakin'
-        And we're stayin' alive, stayin' alive
-        Ah, ah, ah, ah
-        Stayin' alive, stayin' alive
-        Ah, ah, ah, ah
-        Stayin' alive
-        (Hey, yeah)
+Whether you're a brother or whether you're a mother
+You're stayin' alive, stayin' alive
+Feel the city breakin' and everybody shakin'
+And we're stayin' alive, stayin' alive
+Ah, ah, ah, ah
+Stayin' alive, stayin' alive
+Ah, ah, ah, ah
+Stayin' alive
+(Hey, yeah)
 
-        Life goin' nowhere
-        Somebody help me
-        Somebody help me, yeah
-        Life goin' nowhere
-        Somebody help me, yeah
-        I'm stayin' alive
-        Life goin' nowhere
-        Somebody help me
-        Somebody help me, yeah
-        Life goin' nowhere
-        Somebody help me, yeah
-        I'm stayin' alive
-        Life goin' nowhere
-        Somebody help me
-        Somebody help me, yeah
-        Life goin' nowhere
-        Somebody help me, yeah
-        I'm stayin' alive
-        Life goin' nowhere
-        Somebody help me
-        Somebody help me, yeah
-        Life goin' nowhere
-        Somebody help me, yeah
-        I'm stayin' alive
-        Life goin' nowhere
-        Somebody help me
-        Somebody help me, yeah
-        Life goin' nowhere
-        Somebody help me, yeah
-        I'm stayin' alive
-        Life goin' nowhere
-        Somebody help me
-        Somebody help me, yeah
-        Life goin' nowhere
-        Somebody help me, yeah
-        I'm stayin' alive
-        Life goin' nowhere
-        Somebody help me
-        Somebody help me, yeah
-        Life goin' nowhere
-        Somebody help me, yeah
-        I'm stayin' alive
-        Life goin' nowhere
-        Somebody help me
-        Somebody help me, yeah
-        Life goin' nowhere
-        Somebody help me, yeah
-        I'm stayin' alive
-        Life goin' nowhere
-        Somebody help me
-        Somebody help me, yeah
-        Life goin' nowhere
-        Somebody help me, yeah
-        I'm stayin' alive`
+Life goin' nowhere
+Somebody help me
+Somebody help me, yeah
+Life goin' nowhere
+Somebody help me, yeah
+I'm stayin' alive
+Life goin' nowhere
+Somebody help me
+Somebody help me, yeah
+Life goin' nowhere
+Somebody help me, yeah
+I'm stayin' alive
+Life goin' nowhere
+Somebody help me
+Somebody help me, yeah
+Life goin' nowhere
+Somebody help me, yeah
+I'm stayin' alive
+Life goin' nowhere
+Somebody help me
+Somebody help me, yeah
+Life goin' nowhere
+Somebody help me, yeah
+I'm stayin' alive
+Life goin' nowhere
+Somebody help me
+Somebody help me, yeah
+Life goin' nowhere
+Somebody help me, yeah
+I'm stayin' alive
+Life goin' nowhere
+Somebody help me
+Somebody help me, yeah
+Life goin' nowhere
+Somebody help me, yeah
+I'm stayin' alive
+Life goin' nowhere
+Somebody help me
+Somebody help me, yeah
+Life goin' nowhere
+Somebody help me, yeah
+I'm stayin' alive
+Life goin' nowhere
+Somebody help me
+Somebody help me, yeah
+Life goin' nowhere
+Somebody help me, yeah
+I'm stayin' alive`
       },
       '8': {
         title: 'Rivers of Babylon - Boney M',
@@ -634,9 +650,28 @@ Celebrate good times, come on!
     const gradeTitle = document.getElementById('grade-title');
     const songSubfolder = document.getElementById('song-subfolder');
     const pdfSubfolder = document.getElementById('pdf-subfolder');
+    const navHome = document.getElementById('nav-home');
+    const navBack = document.getElementById('nav-back');
 
-    // Track current grade
+    // Track current grade and video elements
     let currentGrade = null;
+    let currentVideoElement = videoPlayer;
+
+    // Function to stop all media playback
+    function stopAllMedia() {
+      // Stop HTML5 video
+      if (videoPlayer) {
+        videoPlayer.pause();
+        videoPlayer.currentTime = 0;
+        videoPlayer.src = '';
+      }
+      
+      // Stop YouTube/Google Drive iframes
+      const iframes = document.querySelectorAll('iframe');
+      iframes.forEach(iframe => {
+        iframe.src = '';
+      });
+    }
 
     // Add click event listeners to folders
     folders.forEach(folder => {
@@ -648,20 +683,20 @@ Celebrate good times, come on!
 
     // Back button event listener
     backButton.addEventListener('click', () => {
+      stopAllMedia();
       contentView.style.display = 'none';
       subfoldersView.style.display = 'block';
-      videoPlayer.pause();
-      videoPlayer.src = '';
     });
     
     // Back to desktop button event listener
     backToDesktopButton.addEventListener('click', () => {
+      stopAllMedia();
       subfoldersView.style.display = 'none';
       desktop.style.display = 'grid';
       currentGrade = null;
     });
     
-    // Song subfolder click event - new unified handler
+    // Song subfolder click event
     songSubfolder.addEventListener('click', () => {
       openUnifiedContent(currentGrade);
     });
@@ -673,6 +708,7 @@ Celebrate good times, come on!
 
     // Function to open subfolders view
     function openSubfolders(grade) {
+      stopAllMedia();
       currentGrade = grade;
       gradeTitle.textContent = `Grado ${grade}`;
       
@@ -681,7 +717,7 @@ Celebrate good times, come on!
       subfoldersView.style.display = 'block';
     }
     
-    // New unified function to open both video and lyrics content simultaneously
+    // Function to open both video and lyrics content
     function openUnifiedContent(grade) {
       const song = songData[grade];
       
@@ -722,6 +758,7 @@ Celebrate good times, come on!
               allowfullscreen
               style="border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);"
             ></iframe>`;
+            currentVideoElement = videoContainer.querySelector('iframe');
           } else {
             // Show error if YouTube URL is invalid
             videoContainer.innerHTML = `
@@ -741,14 +778,12 @@ Celebrate good times, come on!
           let fileId = '';
           
           if (song.videoUrl.includes('/d/')) {
-            // Format: drive.google.com/file/d/FILE_ID/view or .../preview
             const startIndex = song.videoUrl.indexOf('/d/') + 3;
             const endIndex = song.videoUrl.indexOf('/', startIndex);
             if (endIndex !== -1) {
               fileId = song.videoUrl.substring(startIndex, endIndex);
             }
           } else if (song.videoUrl.includes('id=')) {
-            // Format: drive.google.com/file/edit?id=FILE_ID
             const startIndex = song.videoUrl.indexOf('id=') + 3;
             const endIndex = song.videoUrl.indexOf('&', startIndex);
             if (endIndex !== -1) {
@@ -769,6 +804,7 @@ Celebrate good times, come on!
               allowfullscreen
               style="border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);"
             ></iframe>`;
+            currentVideoElement = videoContainer.querySelector('iframe');
           } else {
             // Show error if Google Drive URL is invalid
             videoContainer.innerHTML = `
@@ -784,6 +820,7 @@ Celebrate good times, come on!
           videoPlayer.style.display = 'block';
           videoPlayer.src = song.videoUrl;
           videoPlayer.load();
+          currentVideoElement = videoPlayer;
         }
         
         // Update lyrics content
@@ -793,9 +830,6 @@ Celebrate good times, come on!
         // Show the unified content view
         subfoldersView.style.display = 'none';
         contentView.style.display = 'block';
-        
-        // Load the video
-        videoPlayer.load();
       }
     }
 
@@ -844,24 +878,19 @@ Celebrate good times, come on!
     }
 
     // Mobile navigation
-    const navHome = document.getElementById('nav-home');
-    const navBack = document.getElementById('nav-back');
-
     navHome.addEventListener('click', () => {
+      stopAllMedia();
       contentView.style.display = 'none';
       subfoldersView.style.display = 'none';
       desktop.style.display = 'grid';
-      videoPlayer.pause();
-      videoPlayer.src = '';
       currentGrade = null;
     });
 
     navBack.addEventListener('click', () => {
+      stopAllMedia();
       if (contentView.style.display === 'block') {
         contentView.style.display = 'none';
         subfoldersView.style.display = 'block';
-        videoPlayer.pause();
-        videoPlayer.src = '';
       } else if (subfoldersView.style.display === 'block') {
         subfoldersView.style.display = 'none';
         desktop.style.display = 'grid';
