@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reproductor de Canciones por Grado</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style id="app-style">
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f5f5f7;
+      color: #333;
+      overflow: hidden;
+      height: 100vh;
+    }
+    
+    .desktop {
+      padding: 2rem;
+      height: 100vh;
+      background-image: url('https://cdn.pixabay.com/photo/2022/10/28/17/24/mountains-7553125_1280.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .folder {
+      transition: transform 0.2s;
+      cursor: pointer;
+    }
+    
+    .folder:hover {
+      transform: translateY(-5px);
+    }
+    
+    .folder-icon {
+      font-size: 3rem;
+      color: #3b82f6;
+      margin-bottom: 0.5rem;
+    }
+    
+    .content-view {
+      height: 100vh;
+      background-color: #fff;
+      display: none;
+      overflow: hidden;
+    }
+    
+    .lyrics-panel {
+      height: 70vh;
+      overflow-y: auto;
+      padding: 1.5rem;
+      background-color: #f9f9f9;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    
+    .lyrics-panel::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    .lyrics-panel::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 4px;
+    }
+    
+    .lyrics-panel::-webkit-scrollbar-thumb {
+      background: #c1c1c1;
+      border-radius: 4px;
+    }
+    
+    .back-button {
+      transition: transform 0.2s;
+    }
+    
+    .back-button:hover {
+      transform: translateX(-3px);
+    }
+    
+    .video-container {
+      background-color: #000;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    
+    /* New Mobile Responsive CSS */
+    @media (max-width: 768px) {
+      .desktop {
+        grid-template-columns: 1fr !important;
+        padding: 1rem;
+        padding-bottom: 5rem; /* Space for navbar */
+        overflow-y: auto;
+      }
+      
+      .folder {
+        padding: 0.75rem;
+      }
+      
+      .folder-icon {
+        font-size: 2.5rem;
+      }
+      
+      .content-view {
+        padding: 1rem;
+        padding-bottom: 5rem; /* Space for navbar */
+      }
+      
+      #subfolders-view {
+        padding: 1rem;
+        padding-bottom: 5rem; /* Space for navbar */
+      }
+      
+      .grid-cols-1.md\:grid-cols-2 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      #grade-title {
+        font-size: 1.5rem;
+      }
+      
+      .lyrics-panel {
+        height: calc(100vh - 12rem);
+      }
+      
+      .mobile-navbar {
+        display: flex !important;
+      }
+    }
+    
+    /* Mobile Navbar */
+    .mobile-navbar {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: white;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+      padding: 0.75rem;
+      z-index: 1000;
+      justify-content: space-around;
+    }
+    
+    .nav-button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #3b82f6;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+    
+    .nav-button i {
+      font-size: 1.5rem;
+      margin-bottom: 0.25rem;
+    }
+    
+    /* New styles for the unified content view */
+    #unified-content {
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 8rem);
+    }
+    
+    @media (max-width: 768px) {
+      #unified-content {
+        height: calc(100vh - 12rem); /* Adjust for mobile */
+      }
+      
+      #unified-content .video-container {
+        height: 40vh; /* Fixed height for mobile */
+      }
+      
+      #unified-content .lyrics-panel {
+        height: calc(60vh - 12rem);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Desktop View -->
+  <div id="desktop" class="desktop grid grid-cols-3 md:grid-cols-6 gap-6">
+    <div class="folder flex flex-col items-center" data-grade="6">
+      <div class="folder-icon">
+        <i class="fas fa-folder"></i>
+      </div>
+      <div class="text-center font-medium">Grado 6</div>
+    </div>
+    <div class="folder flex flex-col items-center" data-grade="7">
+      <div class="folder-icon">
+        <i class="fas fa-folder"></i>
+      </div>
+      <div class="text-center font-medium">Grado 7</div>
+    </div>
+    <div class="folder flex flex-col items-center" data-grade="8">
+      <div class="folder-icon">
+        <i class="fas fa-folder"></i>
+      </div>
+      <div class="text-center font-medium">Grado 8</div>
+    </div>
+    <div class="folder flex flex-col items-center" data-grade="9">
+      <div class="folder-icon">
+        <i class="fas fa-folder"></i>
+      </div>
+      <div class="text-center font-medium">Grado 9</div>
+    </div>
+    <div class="folder flex flex-col items-center" data-grade="10">
+      <div class="folder-icon">
+        <i class="fas fa-folder"></i>
+      </div>
+      <div class="text-center font-medium">Grado 10</div>
+    </div>
+    <div class="folder flex flex-col items-center" data-grade="11">
+      <div class="folder-icon">
+        <i class="fas fa-folder"></i>
+      </div>
+      <div class="text-center font-medium">Grado 11</div>
+    </div>
+  </div>
+
+  <!-- Subfolders View (NEW) -->
+  <div id="subfolders-view" class="p-6 h-full" style="display: none; background-image: url('https://cdn.pixabay.com/photo/2022/10/28/17/24/mountains-7553125_1280.jpg'); background-size: cover; background-position: center;">
+    <div class="mb-6">
+      <button id="back-to-desktop-button" class="back-button flex items-center text-blue-600 font-medium bg-white bg-opacity-90 px-3 py-2 rounded-lg">
+        <i class="fas fa-arrow-left mr-2"></i> Volver al escritorio
+      </button>
+    </div>
+    <h2 id="grade-title" class="text-2xl font-semibold mb-6 text-white bg-black bg-opacity-50 inline-block px-4 py-2 rounded-lg"></h2>
+    <div class="grid grid-cols-1 gap-6">
+      <div id="song-subfolder" class="subfolder flex flex-col items-center p-6 bg-white bg-opacity-90 rounded-lg hover:transform hover:translate-y-[-5px] transition-transform duration-200 cursor-pointer">
+        <div class="text-5xl text-blue-500 mb-3">
+          <i class="fas fa-music"></i>
+        </div>
+        <div class="text-center font-medium text-lg">Ver Canción y Letra</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content View - Update to accommodate unified view -->
+  <div id="content-view" class="content-view p-6">
+    <div class="mb-6">
+      <button id="back-button" class="back-button flex items-center text-blue-600 font-medium">
+        <i class="fas fa-arrow-left mr-2"></i> Volver
+      </button>
+    </div>
+    <!-- Replace separate content divs with a single unified view -->
+    <div id="unified-content" class="flex flex-col gap-4 h-[calc(100vh-8rem)]">
+      <div class="video-container w-full" style="height: 40%;">
+        <video id="video-player" controls class="w-full h-full">
+          <source src="" type="video/mp4">
+          Tu navegador no soporta videos HTML5.
+        </video>
+      </div>
+      <div class="lyrics-panel w-full" id="lyrics-container" style="height: 60%; overflow-y: auto;">
+        <h2 id="song-title" class="text-2xl font-semibold mb-4"></h2>
+        <div id="lyrics-content" class="whitespace-pre-line text-gray-700 leading-relaxed"></div>
+      </div>
+    </div>
+    <!-- Remove these separate content divs
+    <div id="video-content" class="flex flex-col gap-6" style="display: none;">
+      <div class="video-container w-full">
+        <video id="video-player" controls class="w-full h-auto">
+          <source src="" type="video/mp4">
+          Tu navegador no soporta videos HTML5.
+        </video>
+      </div>
+    </div>
+    <div id="lyrics-content-container" class="flex flex-col gap-6" style="display: none;">
+      <div class="lyrics-panel w-full" id="lyrics-container">
+        <h2 id="song-title" class="text-2xl font-semibold mb-4"></h2>
+        <div id="lyrics-content" class="whitespace-pre-line text-gray-700 leading-relaxed"></div>
+      </div>
+    </div>
+    -->
+  </div>
+
+  <!-- Mobile Navigation Bar -->
+  <div class="mobile-navbar">
+    <button id="nav-home" class="nav-button">
+      <i class="fas fa-home"></i>
+      <span>Inicio</span>
+    </button>
+    <button id="nav-back" class="nav-button">
+      <i class="fas fa-arrow-left"></i>
+      <span>Volver</span>
+    </button>
+  </div>
+
+  <script id="app-script">
+    // Sample song data for each grade
+    const songData = {
+      '6': {
+        title: 'Canción de Grado 6',
+        videoUrl: 'grado6.mp4',
+        lyrics: `Esta es la letra de la canción para Grado 6.
+        
+"NO HAN ESCOGIDO CANCION"`
+      },
+        '7': {
+            title: 'Staying Alive - Bee Gees',
+            videoUrl: 'https://drive.google.com/file/d/1CdooKNCXwGgSciDc7mMxIxgJwvx4Xf_F/view?usp=sharing',
+            lyrics: `Well, you can tell by the way I use my walk
+        I'm a woman's man, no time to talk
+        The music loud and the women warm
+        I've been kicked around since I was born
+
+        And now it's alright, it's okay
+        And you may look the other way
+        But we can try to understand
+        The New York Times' effect on man
+
+        Whether you're a brother or whether you're a mother
+        You're stayin' alive, stayin' alive
+        Feel the city breakin' and everybody shakin'
+        And we're stayin' alive, stayin' alive
+        Ah, ah, ah, ah
+        Stayin' alive, stayin' alive
+        Ah, ah, ah, ah
+        Stayin' alive
+        Oh, when you walk
+
+        Well now, I get low and I get high
+        And if I can't get either, I really try
+        Got the wings of Heaven on my shoes
+        I'm a dancin' man and I just can't lose
+
+        You know it's alright, it's okay
+        I'll live to see another day
+        But we can try to understand
+        The New York Times' effect on man
+
+        Whether you're a brother or whether you're a mother
+        You're stayin' alive, stayin' alive
+        Feel the city breakin' and everybody shakin'
+        And we're stayin' alive, stayin' alive
+        Ah, ah, ah, ah
+        Stayin' alive, stayin' alive
+        Ah, ah, ah, ah
+        Stayin' alive
+        (Hey, yeah)
+
+        Life goin' nowhere
+        Somebody help me
+        Somebody help me, yeah
+        Life goin' nowhere
+        Somebody help me, yeah
+        I'm stayin' alive
+
+        Well, you can tell by the way I use my walk
+        I'm a woman's man, no time to talk
+        The music loud and the women warm
+        I've been kicked around since I was born
+
+        And now it's alright, it's okay
+        And you may look the other way
+        But we can try to understand
+        The New York Times' effect on man
+
+        Whether you're a brother or whether you're a mother
+        You're stayin' alive, stayin' alive
+        Feel the city breakin' and everybody shakin'
+        And we're stayin' alive, stayin' alive
+        Ah, ah, ah, ah
+        Stayin' alive, stayin' alive
+        Ah, ah, ah, ah
+        Stayin' alive
+        (Hey, yeah)
+
+        Life goin' nowhere
+        Somebody help me
+        Somebody help me, yeah
+        Life goin' nowhere
+        Somebody help me, yeah
+        I'm stayin' alive
+        Life goin' nowhere
+        Somebody help me
+        Somebody help me, yeah
+        Life goin' nowhere
+        Somebody help me, yeah
+        I'm stayin' alive
+        Life goin' nowhere
+        Somebody help me
+        Somebody help me, yeah
+        Life goin' nowhere
+        Somebody help me, yeah
+        I'm stayin' alive
+        Life goin' nowhere
+        Somebody help me
+        Somebody help me, yeah
+        Life goin' nowhere
+        Somebody help me, yeah
+        I'm stayin' alive
+        Life goin' nowhere
+        Somebody help me
+        Somebody help me, yeah
+        Life goin' nowhere
+        Somebody help me, yeah
+        I'm stayin' alive
+        Life goin' nowhere
+        Somebody help me
+        Somebody help me, yeah
+        Life goin' nowhere
+        Somebody help me, yeah
+        I'm stayin' alive
+        Life goin' nowhere
+        Somebody help me
+        Somebody help me, yeah
+        Life goin' nowhere
+        Somebody help me, yeah
+        I'm stayin' alive
+        Life goin' nowhere
+        Somebody help me
+        Somebody help me, yeah
+        Life goin' nowhere
+        Somebody help me, yeah
+        I'm stayin' alive
+        Life goin' nowhere
+        Somebody help me
+        Somebody help me, yeah
+        Life goin' nowhere
+        Somebody help me, yeah
+        I'm stayin' alive`
+      },
+    '8': {
+    title: 'Rivers of Babylon - Boney M',
+    videoUrl: 'https://drive.google.com/file/d/1J3BrCOX82KHN-pJfVEzzEMHIcJ2nTZ2b/view?usp=sharing',
+    lyrics: `By the rivers of Babylon
+There we sat down
+Yeah, we wept
+When we remembered Zion
+By the rivers of Babylon
+There we sat down
+Yeah, we wept
+When we remembered Zion
+
+When the wicked carried us away in captivity
+Required from us a song
+Now, how shall we sing the Lord's song
+In a strange land?
+When the wicked carried us away in captivity
+Requiring of us a song
+Now, how shall we sing the Lord's song
+In a strange land?
+
+Yeah, yeah, yeah, yeah, yeah
+
+Let the words of our mouth
+And the meditations of our heart
+Be acceptable in Thy sight
+Here tonight
+Let the words of our mouth
+And the meditation of our hearts
+Be acceptable in Thy sight
+Here tonight
+
+By the rivers of Babylon
+There we sat down
+Yeah, we wept
+When we remembered Zion
+By the rivers of Babylon
+There we sat down
+Yeah, we wept
+When we remembered Zion
+
+By the rivers of Babylon (dark tears of Babylon)
+There we sat down (you got to sing a song)
+Yeah, we wept (sing a song of love)
+When we remembered Zion (yeah, yeah, yeah, yeah, yeah)
+By the rivers of Babylon (rough bits of Babylon)
+There we sat down (you hear the people cry)
+Yeah, we wept (they need their God)
+When we remembered Zion (ooh, have the power)
+
+By the rivers of Babylon (oh, yeah, yeah)
+There we set down (oh, yeah, yeah)
+Yeah, we wept (dark tears of Babylon)
+When we remembered Zion (ooh, yeah, yeah, yeah)`
+
+      },
+     '9': {
+    title: 'Somebody\'s Watching Me - Rockwell (feat. Michael Jackson)',
+    videoUrl: 'https://drive.google.com/file/d/1Q7q-cnfmYDdp0fMtk5IluCcXf_YKvyIP/view?usp=sharing',
+    lyrics: `
+Who's watching?
+Tell me, who's watching?
+Who's watching me?
+
+I'm just an average man with an average life
+I work from nine to five, hey, hell, I pay the price
+
+All I want is to be left alone in my average home
+But why do I always feel like I'm in the Twilight zone and?
+
+I always feel like somebody's watching me
+And I have no privacy (ooh, ooh)
+I always feel like somebody's watching me
+Tell me is it just a dream?
+
+When I come home at night
+I bolt the door real tight
+People call me on the phone, I'm trying to avoid
+But can the people on TV see me or am I just paranoid?
+
+When I'm in the shower I'm afraid to wash my hair
+'Cause I might open my eyes and find someone standing there
+People say I'm crazy, just a little touched
+But maybe showers remind me of Psycho too much
+
+That's why
+
+I always feel like somebody's watching me
+And I have no privacy (ooh, ooh)
+I always feel like somebody's watching me
+Who's playing tricks on me?
+I don't know anymore
+Are the neighbors watching me?
+(Who's watching?)
+
+Well, is the mailman watching me?
+(Tell me who's watching?)
+
+And I don't feel safe anymore, oh, what a mess
+I wonder who's watching me now (who?), the IRS?
+I always feel like somebody's watching me
+And I have no privacy (ooh, ooh)
+
+I always feel like somebody's watching me
+Tell me is it just a dream?
+I always feel like somebody's watching me
+And I have no privacy (ooh, ooh)
+I always feel like somebody's watching me
+Who's playing tricks on me?
+I always feel like somebody's watching me (ooh, ooh)
+
+I always feel like somebody's watching me
+(Who's watching me?)
+I always feel like somebody's watching me (ooh, ooh)
+I always feel like somebody's watching me
+Who's playing tricks on me?
+
+I always feel like somebody's watching me
+Can I have my privacy? (Ooh, ooh)
+I always feel like somebody's watching me
+Who's playing tricks on me?`
+
+      },
+      '10': {
+        title: 'Canción de Grado 10',
+        videoUrl: 'grado10.mp4',
+        lyrics: `NO HAN ESCOGIDO.`
+      },
+'11': {
+    title: 'Celebration - Kool & The Gang',
+    videoUrl: 'https://drive.google.com/file/d/1nntQG_ummrmHaQNQ6P11um3OpRyWUgAY/view?usp=sharing',
+    lyrics: `Yahoo! (This is your celebration)
+Yahoo! (Alright, this is your celebration)
+
+Celebrate good times, come on!
+(Let's celebrate)
+Celebrate good times, come on!
+(Let's celebrate)
+
+There's a party going on right here
+A celebration to last throughout the years
+So bring your good times and your laughter too
+We gonna celebrate your party with you
+Come on now
+
+(Celebration)
+Let's all celebrate and have a good time
+(Celebration)
+We gon' celebrate and have a good time
+
+It's time to come together
+It's up to you, what's your pleasure?
+(Everyone around the world, come on!)
+
+Yahoo!
+It's a celebration
+Yahoo!
+
+Celebrate good times, come on!
+It's a celebration
+Celebrate good times, come on!
+Let's celebrate
+
+There's a party going on right here
+A dedication to last throughout the years
+So bring your good times and your laughter too
+We gonna celebrate and party with you
+Come on now
+(Celebration)
+Let's all celebrate and have a good time, yeah, yeah
+(Celebration)
+We gon' celebrate and have a good time
+
+It's time to come together
+It's up to you, what's your pleasure?
+(Everyone around the world, come on!)
+
+Yahoo!
+It's a celebration
+Yahoo!
+
+Celebrate good times, come on!
+Let's celebrate, c'mon now
+Celebrate good times, come on!
+Let's celebrate
+
+We're gonna have a good time tonight
+Let's celebrate, it's all right
+We're gonna have a good time tonight
+Let's celebrate, it's all right, baby
+
+We're gonna have a good time tonight (celebration)
+Let's celebrate, it's all right
+We're gonna have a good time tonight (celebration)
+Let's celebrate, it's all right
+
+Yahoo!
+Yahoo!
+
+Celebrate good times, come on!
+(Let's celebrate)
+(Uh, uh, uh, uh)`
+      }
+    };
+
+    // DOM elements
+    const desktop = document.getElementById('desktop');
+    const subfoldersView = document.getElementById('subfolders-view');
+    const contentView = document.getElementById('content-view');
+    const backButton = document.getElementById('back-button');
+    const backToDesktopButton = document.getElementById('back-to-desktop-button');
+    const videoPlayer = document.getElementById('video-player');
+    const songTitle = document.getElementById('song-title');
+    const lyricsContent = document.getElementById('lyrics-content');
+    const folders = document.querySelectorAll('.folder');
+    const gradeTitle = document.getElementById('grade-title');
+    const songSubfolder = document.getElementById('song-subfolder');
+    // Remove references to separate video and lyrics subfolders
+    // const videoSubfolder = document.getElementById('video-subfolder');
+    // const lyricsSubfolder = document.getElementById('lyrics-subfolder');
+    // const videoContent = document.getElementById('video-content');
+    // const lyricsContentContainer = document.getElementById('lyrics-content-container');
+
+    // Track current grade
+    let currentGrade = null;
+
+    // Add click event listeners to folders
+    folders.forEach(folder => {
+      folder.addEventListener('click', () => {
+        const grade = folder.getAttribute('data-grade');
+        openSubfolders(grade);
+      });
+    });
+
+    // Back button event listener
+    backButton.addEventListener('click', () => {
+      contentView.style.display = 'none';
+      subfoldersView.style.display = 'block';
+      videoPlayer.pause();
+      videoPlayer.src = '';
+    });
+    
+    // Back to desktop button event listener
+    backToDesktopButton.addEventListener('click', () => {
+      subfoldersView.style.display = 'none';
+      desktop.style.display = 'grid';
+      currentGrade = null;
+    });
+    
+    // Song subfolder click event - new unified handler
+    songSubfolder.addEventListener('click', () => {
+      openUnifiedContent(currentGrade);
+    });
+
+    // Function to open subfolders view
+    function openSubfolders(grade) {
+      currentGrade = grade;
+      gradeTitle.textContent = `Grado ${grade}`;
+      
+      // Show subfolders view and hide desktop
+      desktop.style.display = 'none';
+      subfoldersView.style.display = 'block';
+    }
+    
+    // New unified function to open both video and lyrics content simultaneously
+    function openUnifiedContent(grade) {
+      const song = songData[grade];
+      
+      if (song) {
+        // Get the video container element
+        const videoContainer = document.querySelector('.video-container');
+        
+        // Check if the video URL is from YouTube
+        if (song.videoUrl && (song.videoUrl.includes('youtube.com') || song.videoUrl.includes('youtu.be'))) {
+          // Hide the regular video player
+          videoPlayer.style.display = 'none';
+          
+          // Extract the YouTube video ID
+          let videoId = '';
+          
+          if (song.videoUrl.includes('youtube.com/watch?v=')) {
+            videoId = song.videoUrl.split('v=')[1];
+            const ampersandPosition = videoId.indexOf('&');
+            if (ampersandPosition !== -1) {
+              videoId = videoId.substring(0, ampersandPosition);
+            }
+          } else if (song.videoUrl.includes('youtu.be/')) {
+            videoId = song.videoUrl.split('youtu.be/')[1];
+            const questionMarkPosition = videoId.indexOf('?');
+            if (questionMarkPosition !== -1) {
+              videoId = videoId.substring(0, questionMarkPosition);
+            }
+          }
+          
+          // Create and insert the YouTube iframe if video ID was successfully extracted
+          if (videoId) {
+            videoContainer.innerHTML = `<iframe 
+              width="100%" 
+              height="100%" 
+              src="https://www.youtube.com/embed/${videoId}" 
+              frameborder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+              allowfullscreen
+              style="border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);"
+            ></iframe>`;
+          } else {
+            // Show error if YouTube URL is invalid
+            videoContainer.innerHTML = `
+              <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background-color: #f8f8f8; border-radius: 0.5rem;">
+                <div style="text-align: center; padding: 2rem;">
+                  <i class="fas fa-exclamation-triangle text-yellow-500 text-5xl mb-4"></i>
+                  <p class="text-lg font-medium text-gray-700">Error: El enlace de YouTube no es válido.</p>
+                </div>
+              </div>`;
+          }
+        // NEW CODE: Check if the video URL is from Google Drive
+        } else if (song.videoUrl && song.videoUrl.includes('drive.google.com')) {
+          // Hide the regular video player
+          videoPlayer.style.display = 'none';
+          
+          // Extract the Google Drive file ID
+          let fileId = '';
+          
+          if (song.videoUrl.includes('/d/')) {
+            // Format: drive.google.com/file/d/FILE_ID/view or .../preview
+            const startIndex = song.videoUrl.indexOf('/d/') + 3;
+            const endIndex = song.videoUrl.indexOf('/', startIndex);
+            if (endIndex !== -1) {
+              fileId = song.videoUrl.substring(startIndex, endIndex);
+            }
+          } else if (song.videoUrl.includes('id=')) {
+            // Format: drive.google.com/file/edit?id=FILE_ID
+            const startIndex = song.videoUrl.indexOf('id=') + 3;
+            const endIndex = song.videoUrl.indexOf('&', startIndex);
+            if (endIndex !== -1) {
+              fileId = song.videoUrl.substring(startIndex, endIndex);
+            } else {
+              fileId = song.videoUrl.substring(startIndex);
+            }
+          }
+          
+          // Create and insert the Google Drive iframe if file ID was successfully extracted
+          if (fileId) {
+            videoContainer.innerHTML = `<iframe 
+              width="100%" 
+              height="100%" 
+              src="https://drive.google.com/file/d/${fileId}/preview" 
+              frameborder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+              allowfullscreen
+              style="border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);"
+            ></iframe>`;
+          } else {
+            // Show error if Google Drive URL is invalid
+            videoContainer.innerHTML = `
+              <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background-color: #f8f8f8; border-radius: 0.5rem;">
+                <div style="text-align: center; padding: 2rem;">
+                  <i class="fas fa-exclamation-triangle text-yellow-500 text-5xl mb-4"></i>
+                  <p class="text-lg font-medium text-gray-700">Error: El enlace de Google Drive no es válido.</p>
+                </div>
+              </div>`;
+          }
+        } else {
+          // For regular video URLs, use the video tag
+          videoPlayer.style.display = 'block';
+          videoPlayer.src = song.videoUrl;
+          videoPlayer.load();
+        }
+        
+        // Update lyrics content
+        songTitle.textContent = song.title;
+        lyricsContent.textContent = song.lyrics;
+        
+        // Show the unified content view
+        subfoldersView.style.display = 'none';
+        contentView.style.display = 'block';
+        
+        // Load the video
+        videoPlayer.load();
+      }
+    }
+
+    // Mobile navigation
+    const navHome = document.getElementById('nav-home');
+    const navBack = document.getElementById('nav-back');
+
+    navHome.addEventListener('click', () => {
+      contentView.style.display = 'none';
+      subfoldersView.style.display = 'none';
+      desktop.style.display = 'grid';
+      videoPlayer.pause();
+      videoPlayer.src = '';
+      currentGrade = null;
+    });
+
+    navBack.addEventListener('click', () => {
+      if (contentView.style.display === 'block') {
+        contentView.style.display = 'none';
+        subfoldersView.style.display = 'block';
+        videoPlayer.pause();
+        videoPlayer.src = '';
+      } else if (subfoldersView.style.display === 'block') {
+        subfoldersView.style.display = 'none';
+        desktop.style.display = 'grid';
+        currentGrade = null;
+      }
+    });
+  </script>
+</body>
+</html>
