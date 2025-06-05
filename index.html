@@ -234,6 +234,12 @@
         </div>
         <div class="text-center font-medium text-lg">Ver Canción y Letra</div>
       </div>
+      <div id="pdf-subfolder" class="subfolder flex flex-col items-center p-6 bg-white bg-opacity-90 rounded-lg hover:transform hover:translate-y-[-5px] transition-transform duration-200 cursor-pointer">
+        <div class="text-5xl text-red-500 mb-3">
+          <i class="fas fa-file-pdf"></i>
+        </div>
+        <div class="text-center font-medium text-lg">Descargar Letra en PDF</div>
+      </div>
     </div>
   </div>
 
@@ -257,22 +263,6 @@
         <div id="lyrics-content" class="whitespace-pre-line text-gray-700 leading-relaxed"></div>
       </div>
     </div>
-    <!-- Remove these separate content divs
-    <div id="video-content" class="flex flex-col gap-6" style="display: none;">
-      <div class="video-container w-full">
-        <video id="video-player" controls class="w-full h-auto">
-          <source src="" type="video/mp4">
-          Tu navegador no soporta videos HTML5.
-        </video>
-      </div>
-    </div>
-    <div id="lyrics-content-container" class="flex flex-col gap-6" style="display: none;">
-      <div class="lyrics-panel w-full" id="lyrics-container">
-        <h2 id="song-title" class="text-2xl font-semibold mb-4"></h2>
-        <div id="lyrics-content" class="whitespace-pre-line text-gray-700 leading-relaxed"></div>
-      </div>
-    </div>
-    -->
   </div>
 
   <!-- Mobile Navigation Bar -->
@@ -293,14 +283,16 @@
       '6': {
         title: 'Canción de Grado 6',
         videoUrl: 'grado6.mp4',
+        pdfUrl: 'https://drive.google.com/file/d/1ABC123Grado6PDF/view?usp=sharing',
         lyrics: `Esta es la letra de la canción para Grado 6.
         
 "NO HAN ESCOGIDO CANCION"`
       },
-        '7': {
-            title: 'Staying Alive - Bee Gees',
-            videoUrl: 'https://drive.google.com/file/d/1CdooKNCXwGgSciDc7mMxIxgJwvx4Xf_F/view?usp=sharing',
-            lyrics: `Well, you can tell by the way I use my walk
+      '7': {
+        title: 'Staying Alive - Bee Gees',
+        videoUrl: 'https://drive.google.com/file/d/1CdooKNCXwGgSciDc7mMxIxgJwvx4Xf_F/view?usp=sharing',
+        pdfUrl: 'https://drive.google.com/file/d/1IJROAab21l87RICQR_q2ofeqmesGLxLd/view?usp=sharing',
+        lyrics: `Well, you can tell by the way I use my walk
         I'm a woman's man, no time to talk
         The music loud and the women warm
         I've been kicked around since I was born
@@ -422,10 +414,11 @@
         Somebody help me, yeah
         I'm stayin' alive`
       },
-    '8': {
-    title: 'Rivers of Babylon - Boney M',
-    videoUrl: 'https://drive.google.com/file/d/1J3BrCOX82KHN-pJfVEzzEMHIcJ2nTZ2b/view?usp=sharing',
-    lyrics: `By the rivers of Babylon
+      '8': {
+        title: 'Rivers of Babylon - Boney M',
+        videoUrl: 'https://drive.google.com/file/d/1J3BrCOX82KHN-pJfVEzzEMHIcJ2nTZ2b/view?usp=sharing',
+        pdfUrl: 'https://drive.google.com/file/d/1wfbCuS9g3hhkLgFwjzj3AEIvdku_m8Bh/view?usp=sharing',
+        lyrics: `By the rivers of Babylon
 There we sat down
 Yeah, we wept
 When we remembered Zion
@@ -476,12 +469,12 @@ By the rivers of Babylon (oh, yeah, yeah)
 There we set down (oh, yeah, yeah)
 Yeah, we wept (dark tears of Babylon)
 When we remembered Zion (ooh, yeah, yeah, yeah)`
-
       },
-     '9': {
-    title: 'Somebody\'s Watching Me - Rockwell (feat. Michael Jackson)',
-    videoUrl: 'https://drive.google.com/file/d/1Q7q-cnfmYDdp0fMtk5IluCcXf_YKvyIP/view?usp=sharing',
-    lyrics: `
+      '9': {
+        title: 'Somebody\'s Watching Me - Rockwell (feat. Michael Jackson)',
+        videoUrl: 'https://drive.google.com/file/d/1Q7q-cnfmYDdp0fMtk5IluCcXf_YKvyIP/view?usp=sharing',
+        pdfUrl: 'https://drive.google.com/file/d/1sERq6i3Qu9FqbzaYDEtEO5IsFc-UCknl/view?usp=sharing',
+        lyrics: `
 Who's watching?
 Tell me, who's watching?
 Who's watching me?
@@ -543,17 +536,18 @@ I always feel like somebody's watching me
 Can I have my privacy? (Ooh, ooh)
 I always feel like somebody's watching me
 Who's playing tricks on me?`
-
       },
       '10': {
         title: 'Canción de Grado 10',
         videoUrl: 'grado10.mp4',
+        pdfUrl: 'https://drive.google.com/file/d/1MNO345Grado10PDF/view?usp=sharing',
         lyrics: `NO HAN ESCOGIDO.`
       },
-'11': {
-    title: 'Celebration - Kool & The Gang',
-    videoUrl: 'https://drive.google.com/file/d/1nntQG_ummrmHaQNQ6P11um3OpRyWUgAY/view?usp=sharing',
-    lyrics: `Yahoo! (This is your celebration)
+      '11': {
+        title: 'Celebration - Kool & The Gang',
+        videoUrl: 'https://drive.google.com/file/d/1nntQG_ummrmHaQNQ6P11um3OpRyWUgAY/view?usp=sharing',
+        pdfUrl: 'https://drive.google.com/file/d/1C5ogIEAx8aKpbk6Xb3A6iO-aLhkOZMGp/view?usp=sharing',
+        lyrics: `Yahoo! (This is your celebration)
 Yahoo! (Alright, this is your celebration)
 
 Celebrate good times, come on!
@@ -639,11 +633,7 @@ Celebrate good times, come on!
     const folders = document.querySelectorAll('.folder');
     const gradeTitle = document.getElementById('grade-title');
     const songSubfolder = document.getElementById('song-subfolder');
-    // Remove references to separate video and lyrics subfolders
-    // const videoSubfolder = document.getElementById('video-subfolder');
-    // const lyricsSubfolder = document.getElementById('lyrics-subfolder');
-    // const videoContent = document.getElementById('video-content');
-    // const lyricsContentContainer = document.getElementById('lyrics-content-container');
+    const pdfSubfolder = document.getElementById('pdf-subfolder');
 
     // Track current grade
     let currentGrade = null;
@@ -674,6 +664,11 @@ Celebrate good times, come on!
     // Song subfolder click event - new unified handler
     songSubfolder.addEventListener('click', () => {
       openUnifiedContent(currentGrade);
+    });
+
+    // PDF subfolder click event
+    pdfSubfolder.addEventListener('click', () => {
+      downloadPDF(currentGrade);
     });
 
     // Function to open subfolders view
@@ -737,7 +732,7 @@ Celebrate good times, come on!
                 </div>
               </div>`;
           }
-        // NEW CODE: Check if the video URL is from Google Drive
+        // Check if the video URL is from Google Drive
         } else if (song.videoUrl && song.videoUrl.includes('drive.google.com')) {
           // Hide the regular video player
           videoPlayer.style.display = 'none';
@@ -801,6 +796,50 @@ Celebrate good times, come on!
         
         // Load the video
         videoPlayer.load();
+      }
+    }
+
+    // Function to download PDF
+    function downloadPDF(grade) {
+      const song = songData[grade];
+      
+      if (song && song.pdfUrl && song.pdfUrl.trim() !== '') {
+        // Check if it's a Google Drive link
+        if (song.pdfUrl.includes('drive.google.com')) {
+          let fileId = '';
+          
+          // Extract the Google Drive file ID
+          if (song.pdfUrl.includes('/d/')) {
+            const startIndex = song.pdfUrl.indexOf('/d/') + 3;
+            const endIndex = song.pdfUrl.indexOf('/', startIndex);
+            if (endIndex !== -1) {
+              fileId = song.pdfUrl.substring(startIndex, endIndex);
+            }
+          } else if (song.pdfUrl.includes('id=')) {
+            const startIndex = song.pdfUrl.indexOf('id=') + 3;
+            const endIndex = song.pdfUrl.indexOf('&', startIndex);
+            if (endIndex !== -1) {
+              fileId = song.pdfUrl.substring(startIndex, endIndex);
+            } else {
+              fileId = song.pdfUrl.substring(startIndex);
+            }
+          }
+          
+          if (fileId) {
+            // Create direct download link for Google Drive
+            const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+            window.open(downloadUrl, '_blank');
+          } else {
+            // Fallback: open the original link
+            window.open(song.pdfUrl, '_blank');
+          }
+        } else {
+          // For direct PDF links
+          window.open(song.pdfUrl, '_blank');
+        }
+      } else {
+        // Show alert if no PDF is available
+        alert(`No hay PDF disponible para la canción de Grado ${grade}.\n\nPor favor, contacta al administrador para añadir el enlace del PDF.`);
       }
     }
 
